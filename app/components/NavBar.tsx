@@ -6,7 +6,9 @@ export default function NavBar({ user }: { user: Auth0Profile | null }) {
       <Link to={`/`}>Home</Link>
       {user && (
         <>
-          <Link className="="btn-indigo-700" to="/projects">Projects</Link>
+          <Link className="btn-indigo-700" to="/projects">
+            Projects
+          </Link>
           <Form method="post" action="/logout">
             <button type="submit">Log Out</button>
           </Form>
