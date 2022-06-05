@@ -7,7 +7,7 @@ import { Form } from "@remix-run/react";
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { formatDateWithoutTime } from "~/utils/date.server";
+import { formatDateWithoutTime } from "~/utils/date";
 import { setStart, setStatusWithEndTime } from "~/models/timeEntry.server";
 type LoaderData = {
   project: Awaited<ReturnType<typeof getProject>>;
