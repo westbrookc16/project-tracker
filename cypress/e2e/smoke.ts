@@ -1,4 +1,4 @@
-import faker from "@faker-js/faker";
+/*import faker from "@faker-js/faker";
 
 describe("smoke tests", () => {
   afterEach(() => {
@@ -46,3 +46,4 @@ describe("smoke tests", () => {
     cy.findByText("No notes yet");
   });
 });
+*/
