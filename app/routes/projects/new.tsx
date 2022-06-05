@@ -1,14 +1,17 @@
 import { Form } from "@remix-run/react";
+import { auth } from "~/utils/auth.server";
 import type { ActionFunction } from "@remix-run/node";
 import { createProject } from "~/models/project.server";
 import invariant from "tiny-invariant";
-import { requireUserId } from "~/session.server";
+
 import { redirect } from "@remix-run/node";
 export const action: ActionFunction = async ({ request }) => {
   const data = await request.formData();
   const name = data.get("name");
   const description = data.get("description");
-  const userId = await requireUserId(request);
+  const userId = (
+    await auth.isAuthenticated(request, { failureRedirect: "/login" })
+  ).id;
   invariant(typeof name === "string", "name must be a string");
   invariant(typeof description === "string", "description must be a string");
   await createProject({ name, description, userId });

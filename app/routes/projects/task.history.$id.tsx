@@ -1,9 +1,9 @@
-import { getHistory } from "~/models/timeEntry";
+import { getHistory } from "~/models/timeEntry.server";
 import { json } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/Node";
 import invariant from "tiny-invariant";
 import { useLoaderData } from "@remix-run/react";
-import { formatDateWithTime } from "~/utils/date";
+import { formatDateWithTime } from "~/utils/date.server";
 type LoaderData = { history: Awaited<ReturnType<typeof getHistory>> };
 export const loader: LoaderFunction = async ({ request, params }) => {
   invariant(params.id, "id must be set.");

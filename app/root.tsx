@@ -1,10 +1,8 @@
 import NavBar from "~/components/NavBar";
-import type {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-} from "@remix-run/node";
 import { json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
+
 import {
   Links,
   LiveReload,
@@ -12,10 +10,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
-import tailwindStylesheetUrl from "./styles/tailwind.css";
-import { getUser } from "./session.server";
+import tailwindStylesheetUrl from "./styles/app.css";
+import type { Auth0Profile } from "remix-auth-auth0";
+import { auth } from "./utils/auth.server";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
@@ -26,18 +26,14 @@ export const meta: MetaFunction = () => ({
   title: "Remix Notes",
   viewport: "width=device-width,initial-scale=1",
 });
-
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
-
+type LoaderData = { user: Auth0Profile | null };
 export const loader: LoaderFunction = async ({ request }) => {
-  return json<LoaderData>({
-    user: await getUser(request),
-  });
+  const user = await auth.isAuthenticated(request);
+  return json<LoaderData>({ user });
 };
 
 export default function App() {
+  const { user } = useLoaderData<LoaderData>();
   return (
     <html lang="en" className="h-full">
       <head>
@@ -45,7 +41,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <NavBar />
+        <NavBar user={user} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
