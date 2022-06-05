@@ -14,8 +14,8 @@ export const action: ActionFunction = async ({ request }) => {
   ).id;
   invariant(typeof name === "string", "name must be a string");
   invariant(typeof description === "string", "description must be a string");
-  await createProject({ name, description, userId });
-  return redirect("/projects");
+  const project = await createProject({ name, description, userId });
+  return redirect(`/projects/${project.id}`);
 };
 export default function New() {
   return (
